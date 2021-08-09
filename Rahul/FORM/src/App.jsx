@@ -55,11 +55,13 @@ const App = () => {
     const onsubmit = (event) => {
         event.preventDefault();
         alert("Form Submitted");
+        setfullName(" ");
     };
 
     return (
         <>
-            <div>
+            <div className="image"><img src={"./logo.png"} /></div>
+            <div className="login_side">
                 <form onSubmit={onsubmit}>
                     <h1>
                         Hello {fullname.fname}
