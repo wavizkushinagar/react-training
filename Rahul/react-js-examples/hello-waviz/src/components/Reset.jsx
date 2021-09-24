@@ -3,7 +3,7 @@ import { Grid, Paper, Button, Typography } from '@material-ui/core';
 import { TextField } from "@material-ui/core";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup'
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import axios from "axios";
 
@@ -17,7 +17,6 @@ const Reset = () => {
     const btncss = {display: "flex",
         justifyContent: "space-between",
         width: "100%",}
-    const linkStyle = {textDecoration:"none"}
     const passwordRegularExp = /^(?=.*?[A-Za-z])(?=.*[A-Z])(?=.*?[0-9]).{6,}$/
     const initialValues = {
         password: '',

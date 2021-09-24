@@ -10,7 +10,7 @@ import forgot from "./components/Forgot";
 import Forgot from "./components/Forgot";
 import Otp from "./components/Otp";
 import Reset from "./components/Reset";
-import ProtectedRoute from "./components/ProtectedRoute";
+// import ProtectedRoute from "./components/ProtectedRoute";
 import Dashbord from "./components/Dashboard";
 
 
@@ -28,7 +28,7 @@ const App = () => {
                  <Route  exact path='/' component={Home} />
                     <Route exact path='/login' component={Login} />
                     <Route exact path='/registration' component={Reagistration} />
-                   <Route path="/dashboard"><ProtectedRoute component={Dashbord} /></Route>
+                   <Route path="/dashboard" component={Dashbord} />
                     <Route exact path='/forgot' component={Forgot} />
                     <Route exact path='/otp' component={Otp} />
                     <Route exact path='/reset' component={Reset} />                   
