@@ -8,9 +8,9 @@ import axios from "axios";
 
 
 
-const Login = () => {
+const Login = ({ onClickAuthenticateButton }) => {
    
-    const token = localStorage.getItem('token')
+    // const token = localStorage.getItem('token')
     var history = useHistory();
     const [loginerror, setLoginerror] = useState(false);
     const [email, setEmail] = useState("");
@@ -44,7 +44,6 @@ const Login = () => {
     const onSubmit = (values, props) => {
         // alert(JSON.stringify(values),null,2)
         // props.resetForm()
-        localStorage.setItem('token',JSON.stringify(values));
 
         axios.post('http://localhost:3333/login', values)
             .then(function (response) {
@@ -53,6 +52,7 @@ const Login = () => {
                 if (response.status == 200 && response.data && response.data.messeage == "success") {
                     console.log("Success Response : ", response.data.messeage)
                     history.push("/dashboard");
+                   
                 } else {
                     setLoginerror(true)
                 }
@@ -104,7 +104,7 @@ const Login = () => {
 
                             {/* button */}
                             <div style={btncss}>
-                                <Button type="submit" style={btnStyle} variant='contained' color='primary' >
+                                <Button type="submit" style={btnStyle} variant='contained' color='primary' onClick={onClickAuthenticateButton} >
                                     Login
                                 </Button>
                                 <Link style={linkStyle} to="/forgot"><Button type="submit" style={btnStyle} variant='contained'  >

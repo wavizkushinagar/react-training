@@ -1,22 +1,23 @@
-import React, { Component, useEffect } from "react";
+import React from 'react'
+import { Route } from 'react-router-dom'
+import Redirecting from './Redirecting'
 
-import {  useHistory } from "react-router-dom";
- 
+const ProtectedRoute = ({
+  component: Component,
+  componentProps,
+  isAuthenticated,
+  ...rest
+}) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      isAuthenticated ? (
+        <Component {...props} {...componentProps} />
+      ) : (
+        <Redirecting to='/dashboard' />
+      )
+    }
+  />
+)
 
-function ProtectedRoute(response) {
-    var history = useHistory();
-    let component = response.component;
-    useEffect(() => {
-        if (! localStorage.getItem('value')) {
-            history.push('/dashboard')
-        }
-    },[])
-
-    return (
-        <>
-            <Component />
-        </>
-    );
-}
-
-export default ProtectedRoute;
+export default ProtectedRoute
