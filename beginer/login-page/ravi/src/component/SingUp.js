@@ -21,7 +21,7 @@ return(
                   <p>Login With Your Personal Info </p>
                 </div>
                 <div className="sing_up text-center py-4">
-                <Link to=""><button className="p-2 m-2 px-5 ">Sing In</button></Link>
+                <Link to="/"><button className="p-2 m-2 px-5 ">Sing In</button></Link>
                 </div>
               </div>
                 </div>
@@ -50,6 +50,7 @@ return(
                   <h5>or use your registration</h5>
                 </div>
                 <div className="py-2 px-5">
+                <form>
                   <div className="form-outline mb-3">
                     <label className="form-label" >
                       Name
@@ -83,11 +84,13 @@ return(
                       placeholder="Enter Password"
                     />
                   </div>
+                  
                   <div className="mb-2 login_button">
-                    <button className=" p-2 px-5 " type="button" >
+                    <button className=" p-2 px-5 " type="submit" >
                       Sing Up
                     </button>
                   </div>
+                  </form>
                 </div>
 
 

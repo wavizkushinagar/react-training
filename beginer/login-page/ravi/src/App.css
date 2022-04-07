@@ -15,17 +15,28 @@
   border:white solid 1px;
 
 }
+
+
 @media  (max-width: 980px)  {
  .login_text{
-   margin-top:155px;
+   margin-top:80px;
+   display:none;
  }
  .friend{
    margin-top:10px;
  }
- 
- 
+ .login_button{
+   display: flex;
+   justify-content:space-around;
+ }
+.login_button .blok{
+  display:block;
+}
 }
 
+.blok{
+  display:none;
+}
 
 .friend{
   margin-top:80px;

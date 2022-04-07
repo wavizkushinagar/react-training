@@ -1,7 +1,43 @@
-import React from "react";
+import React,{useState} from "react";
 import {Link} from 'react-router-dom';
 
 const Login = () => {
+  const [inputData , setInputData] = useState({
+    email:"",
+    password:""
+  });
+
+  const onSubmit = (event)=>{
+    event.preventDefault();
+    
+}
+
+const inputEvent =(event) =>{
+
+  let value = event.target.value;
+  let name = event.target.name;
+
+setInputData((preValue) => {
+
+  if(name === "email"){
+      return{
+          email : value,
+          password : preValue.password
+      };
+      }
+      else if(name === "password"){
+          return{
+              email :preValue.email,
+              password : value
+          };
+      }
+
+});
+
+}
+
+
+
   return (
     <div>
 
@@ -36,13 +72,17 @@ const Login = () => {
                   <h5>or use your email account</h5>
                 </div>
                 <div className="py-2 px-5">
+                <form onSubmit={onSubmit}>
                   <div className="form-outline mb-3">
                     <label className="form-label" >
                       Email
                     </label>
                     <input
                       type="text"
-                      id="form3Example4"
+                      value={inputData.email}
+                      onChange={inputEvent}
+                      name="email"
+                      
                       className="form-control"
                       placeholder="Enter Email"
                     />
@@ -53,16 +93,27 @@ const Login = () => {
                     </label>
                     <input
                       type="password"
-                      id="form3Example4"
+                      value={inputData.password}
+                      onChange={inputEvent}
+                      name="password"
+                     
                       className="form-control"
                       placeholder="Enter Password"
-                    />
+                   Required />
+                  </div>
+                  <div className=" mb-3 text-center">
+                  <Link to="/forgot" >Forgot Password</Link>
                   </div>
                   <div className="mb-2 login_button">
-                    <button className=" p-2 px-5 " type="button" >
+                    <button className=" p-2 px-5 " type="submit" >
                       Sing In
                     </button>
+                    <div className=" blok text-center ">
+                <Link to="/sing"><button className="p-2 px-5 ">Sign Up</button></Link> 
+                </div>
+                    
                   </div>
+                  </form>
                 </div>
                 </div>
                 <div className="col-md-5 p-0 m-0">
