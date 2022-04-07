@@ -1,0 +1,63 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* Main Page CSS  */
+.main_box{
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  background-color: #f0f4f3;
+}
+.main_box .triangle{
+  width: 300px;
+  height: 300px;
+  border-top: 150px solid transparent;
+  border-bottom: 150px solid transparent;
+  border-right: 300px solid #e35e6a;
+  position: absolute;
+  transform: rotate(346deg);
+  top: -25px;
+  animation: triangleIN 1s forwards ;
+  z-index: 0;
+}
+@keyframes triangleIN {
+  0%{
+      right: -300px;
+  }
+  100%{
+      right: -33px;
+  }
+}
+.main_box .circle{
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  background-color: #f9c73f;
+  border-radius: 50%;
+  bottom: -87px;
+  animation: circleIn 1s forwards ;
+  z-index: 0;
+}
+
+@keyframes circleIn {
+  0%{
+      left: -400px;
+  }
+  100%{
+      left: -47px;
+  }
+}
+.main_box .paperStyle{
+  width: 80%;
+  height: 600px;
+  z-index: 1;
+  background: transparent;
+  border-radius: 10px;
+  overflow: hidden;
+}
