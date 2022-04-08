@@ -25,12 +25,18 @@ export default function Signin() {
 
   {/* validationSchema */}
   const validationSchema=Yup.object().shape({
-    email:Yup.string().required("required") 
+    email:Yup.string().email("Enter Valid Email").required("required"),
+    password:Yup.string().min(8,"Password should be 8 corrector").required("Required") 
   })
 
   {/* onSubmit */}
   const onSubmit=(value,props)=>{
     console.log(value);
+    console.log(props);
+    setTimeout(()=>{
+      props.resetForm();
+    props.setSubmitting(false)
+    },1000)
   }
 
 
@@ -89,7 +95,8 @@ export default function Signin() {
                         label="Password"
                         variant="standard"
                         name="password"
-                        required
+                        helperText={<ErrorMessage name="password"/>}
+                        
                       />
                     </Box>
                     <br />
@@ -108,8 +115,8 @@ export default function Signin() {
                     <br />
 
                     {/* Signin Btn */}
-                    <Button className="signinBtn" type="submit">
-                      Sign In
+                    <Button className="signinBtn" type="submit" disabled={props.isSubmitting}>
+                      {props.isSubmitting? "login...":"Sign In"}
                     </Button>
                   </Grid>
                 
