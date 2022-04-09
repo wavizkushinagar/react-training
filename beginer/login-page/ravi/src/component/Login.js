@@ -1,42 +1,38 @@
-import React,{useState} from "react";
+
 import {Link} from 'react-router-dom';
+import { Formik } from 'formik';
+import ReCAPTCHA from "react-google-recaptcha";
 
 const Login = () => {
-  const [inputData , setInputData] = useState({
-    email:"",
-    password:""
-  });
+ var initialValues=({ email: '', password: '' })
 
-  const onSubmit = (event)=>{
-    event.preventDefault();
-    
+var  validate=(values => {
+    const errors = {};
+if (!values.email) {
+errors.email = 'please enter email';
+} else if (
+!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+) {
+errors.email = 'Invalid email address';
 }
-
-const inputEvent =(event) =>{
-
-  let value = event.target.value;
-  let name = event.target.name;
-
-setInputData((preValue) => {
-
-  if(name === "email"){
-      return{
-          email : value,
-          password : preValue.password
-      };
-      }
-      else if(name === "password"){
-          return{
-              email :preValue.email,
-              password : value
-          };
-      }
-
+if (!values.password) {
+errors.password = ' Please enter password';
+} else if (
+!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(values.password)
+) {
+errors.password = 'Invalid password address';
+}
+return errors;
 });
 
-}
 
 
+ const onSubmit=(values, { setSubmitting }) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+    }, 400);
+  }
 
   return (
     <div>
@@ -48,7 +44,7 @@ setInputData((preValue) => {
             
              <div className="col-md-7  ">
 
-             <div className=" pt-5">
+             <div className=" pt-3">
              <h2 className="text-center p-2 text-green">Sign In To Diprella</h2>
                 </div>
                 <div className="d-flex justify-content-between w-25 mx-auto">
@@ -71,41 +67,62 @@ setInputData((preValue) => {
                 <div className="text-center mt-1 or">
                   <h5>or use your email account</h5>
                 </div>
-                <div className="py-2 px-5">
-                <form onSubmit={onSubmit}>
-                  <div className="form-outline mb-3">
+                <div className="py-1 px-5">
+                <Formik initialValues={initialValues} validate={validate} onSubmit={onSubmit}>
+       {({
+         values,
+         errors,
+         touched,
+         handleChange,
+         handleBlur,
+         handleSubmit,
+         isSubmitting,
+         /* and other goodies */
+       }) => (
+                <form onSubmit={handleSubmit} >
+                  <div className="form-outline mb-1">
                     <label className="form-label" >
                       Email
                     </label>
                     <input
-                      type="text"
-                      value={inputData.email}
-                      onChange={inputEvent}
-                      name="email"
-                      
-                      className="form-control"
+                      type="email"
+                     name="email"
+                     onChange={handleChange}
+                      onBlur={handleBlur}
+                       value={values.email}
+                       className="form-control"
                       placeholder="Enter Email"
                     />
+                    {errors.email && touched.email && errors.email}
                   </div>
-                  <div className="form-outline mb-3">
+                  <div className="form-outline mb-1">
                     <label className="form-label" >
                       Password
                     </label>
                     <input
                       type="password"
-                      value={inputData.password}
-                      onChange={inputEvent}
                       name="password"
-                     
+                     onChange={handleChange}
+                     onBlur={handleBlur}
+                      value={values.password}
                       className="form-control"
                       placeholder="Enter Password"
                    Required />
+                   {errors.password && touched.password && errors.password}
                   </div>
-                  <div className=" mb-3 text-center">
+                  <div className="mb-2">
+              <ReCAPTCHA
+                      sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+                    name="grecaptcha"
+                      required
+                    />
+              </div>
+                  <div className=" mb-1 text-center">
                   <Link to="/forgot" >Forgot Password</Link>
                   </div>
-                  <div className="mb-2 login_button">
-                    <button className=" p-2 px-5 " type="submit" >
+                  
+                  <div className="mb-1 login_button">
+                    <button className=" p-2 px-5 " type="submit" disabled={isSubmitting} >
                       Sing In
                     </button>
                     <div className=" blok text-center ">
@@ -114,6 +131,9 @@ setInputData((preValue) => {
                     
                   </div>
                   </form>
+                  )}
+     </Formik>
+
                 </div>
                 </div>
                 <div className="col-md-5 p-0 m-0">
