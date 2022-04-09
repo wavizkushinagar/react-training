@@ -1,5 +1,5 @@
 import { Avatar, Button, Grid } from "@mui/material";
-import { Box } from "@mui/system";
+import { Box, Paper } from "@mui/material";
 import React from "react";
 import "./signstyle.css";
 import logo from "./image/logo-header.png";
@@ -41,6 +41,10 @@ export default function Signin() {
 
 
   return (
+     <Box className="main_box">
+      <div className="triangle"></div>
+      <div className="circle"></div>
+      <Paper elevation={3} className="paperStyle">
     <Box sx={{ flexGrow: 1 }} className="signBox">
       <Grid container className="signGrid">
         <Grid item xs={8} className="leftSide">
@@ -142,6 +146,9 @@ export default function Signin() {
           </Grid>
         </Grid>
       </Grid>
+    </Box>
+
+     </Paper>
     </Box>
   );
 }

@@ -1,26 +1,25 @@
 import "./App.css";
-import { Switch, Route } from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Signup from "./Component/Signup";
 import Signin from "./Component/Signin";
-import { Box, Paper } from "@mui/material";
+import Dashboard from "./Component/Dashboard/Dashboard";
+import ProtectedRoute from "./Component/ProtectedRoute";
 
 function App() {
   return (
     <div>
+    <Router>
       <Switch>
-        <Box className="main_box">
-          <div className="triangle"></div>
-          <div className="circle"></div>
-          <Paper elevation={3} className="paperStyle">
-            <Route exact path="/">
-              <Signin />
-            </Route>
-            <Route exact path="/signup">
-              <Signup />{" "}
-            </Route>
-          </Paper>
-        </Box>
+        <Route exact path="/">
+          <Signin />
+        </Route>
+        <Route path="/signup">
+          <Signup />
+        </Route>
+
+        <ProtectedRoute path="/dashboard" component={Dashboard} auth={false}/>
       </Switch>
+      </Router>
     </div>
   );
 }
