@@ -17,7 +17,20 @@ function App() {
           <Signup />
         </Route>
 
-        <ProtectedRoute path="/dashboard" component={Dashboard} auth={false}/>
+     {/*  <ProtectedRoute path="/dashboard" component={Dashboard} auth={true}/> */}
+
+        <ProtectedRoute
+                        path="/dashboard"
+                        redirectRoute="/"
+                        guardFunctionArgs={{'one':'one'}}
+                        guardFunction={(args) => {
+                            console.log(args)
+                            const token = localStorage.getItem('token');
+                            return token && token.length > 0;
+                        }}
+                        component={Dashboard}
+                        exact
+                    />     
       </Switch>
       </Router>
     </div>
