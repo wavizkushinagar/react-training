@@ -34,7 +34,15 @@ return errors;
   // console.log(data);
   console.log(values)
 
-  axios.get('http://localhost:2022/login',values).then(function (res) {
+  let loginOpt ={body : {
+    "email" : values.email,
+    "password" : values.password
+  }};
+
+  axios.get('http://localhost:2022/login',JSON.stringify(loginOpt), { "headers": {
+    "content-type": "application/json",
+    }}
+    ).then(function (res) {
     
     console.log(res);
    
