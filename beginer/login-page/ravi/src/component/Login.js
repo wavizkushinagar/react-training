@@ -21,7 +21,7 @@ errors.password = ' Please enter password';
 } else if (
 !/^(?=.*[A-Za-z])[A-Za-z\d@$!%*#?&]{6,}$/i.test(values.password)
 ) {
-errors.password = 'Invalid password address';
+errors.password = 'Invalid password ';
 }
 return errors;
 });

@@ -22,7 +22,7 @@ errors.password = ' Please enter password';
 } else if (
 !/^(?=.*[A-Za-z])[A-Za-z\d@$!%*#?&]{6,}$/i.test(values.password)
 ) {
-errors.password = 'Invalid password address';
+errors.password = 'Invalid password ';
 }
 
 if (!values.name) {
@@ -30,7 +30,7 @@ if (!values.name) {
   } else if (
   !/^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)$/i.test(values.name)
   ) {
-  errors.name = 'Invalid name address';
+  errors.name = 'Invalid name ';
   }
 return errors;
 });
