@@ -1,5 +1,6 @@
 import React from "react";
-import { Route, Navigate } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 const ProtectedRoute = ({auth, component:Component, ...rest }) => {
   return (
@@ -8,7 +9,7 @@ const ProtectedRoute = ({auth, component:Component, ...rest }) => {
       render={(props)=>{
         if(auth) return <Component {...rest} />;
         if(!auth) return(
-          <Navigate to={{path:"/", state: {from:props.location}}}/>
+          <Redirect to={{path:"/", state: {from:props.location}}}/>
         ) 
       }}
     />

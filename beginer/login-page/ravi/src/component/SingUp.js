@@ -1,11 +1,11 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import { Formik } from 'formik';
-import ReCAPTCHA from "react-google-recaptcha";
+import axios from 'axios'
 
 const SingUp = () => { 
 
-
+  
   var initialValues=({ email: '', password: '', name:'' })
 
 var  validate=(values => {
@@ -20,7 +20,7 @@ errors.email = 'Invalid email address';
 if (!values.password) {
 errors.password = ' Please enter password';
 } else if (
-!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(values.password)
+!/^(?=.*[A-Za-z])[A-Za-z\d@$!%*#?&]{6,}$/i.test(values.password)
 ) {
 errors.password = 'Invalid password address';
 }
@@ -37,11 +37,16 @@ return errors;
 
 
 
- const onSubmit=(values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 400);
+ const onSubmit=(values) => {
+console.log(values)
+  axios.post('http://localhost:2022/user', values).then(function (res) {
+    
+    console.log(res);
+     
+    //console.log(res.data.error === false && res.data.massage === 'New user has been created successfully.');
+ })
+
+    
   }
 
 return(
@@ -98,8 +103,8 @@ return(
          touched,
          handleChange,
          handleBlur,
-         handleSubmit,
-         isSubmitting,
+         handleSubmit
+         
          /* and other goodies */
        }) => (
                 <form onSubmit={handleSubmit} >
@@ -150,21 +155,18 @@ return(
                   </div>
                   
                   <div className="mb-1 login_button d-flex justify-content-around">
-                    <button className=" p-2 px-4 " type="submit" disabled={isSubmitting} >
+
+                    <button className=" p-2 px-4 " type="submit"  >
                       Sing Up
                     </button>
-                    <div className="">
-              <ReCAPTCHA
-                      sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-                    name="grecaptcha"
-                      required
-                    />
-              </div>
+                    
                   </div>
+
                   </form>
                   )}
      </Formik>
-                </div>
+
+              </div>
 
 
                 </div>

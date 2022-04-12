@@ -1,7 +1,8 @@
 
 import {Link} from 'react-router-dom';
 import { Formik } from 'formik';
-import ReCAPTCHA from "react-google-recaptcha";
+import axios from "axios";
+
 
 const Login = () => {
  var initialValues=({ email: '', password: '' })
@@ -18,7 +19,7 @@ errors.email = 'Invalid email address';
 if (!values.password) {
 errors.password = ' Please enter password';
 } else if (
-!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/i.test(values.password)
+!/^(?=.*[A-Za-z])[A-Za-z\d@$!%*#?&]{6,}$/i.test(values.password)
 ) {
 errors.password = 'Invalid password address';
 }
@@ -27,11 +28,18 @@ return errors;
 
 
 
- const onSubmit=(values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 400);
+ const  onSubmit=(values) => {
+ 
+  // let data = JSON.stringify(values, null, 2);
+  // console.log(data);
+  console.log(values)
+
+  axios.get('http://localhost:2022/login',values).then(function (res) {
+    
+    console.log(res);
+   
+ })   
+
   }
 
   return (
@@ -76,7 +84,7 @@ return errors;
          handleChange,
          handleBlur,
          handleSubmit,
-         isSubmitting,
+         
          /* and other goodies */
        }) => (
                 <form onSubmit={handleSubmit} >
@@ -110,19 +118,13 @@ return errors;
                    Required />
                    {errors.password && touched.password && errors.password}
                   </div>
-                  <div className="mb-2">
-              <ReCAPTCHA
-                      sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-                    name="grecaptcha"
-                      required
-                    />
-              </div>
+                  
                   <div className=" mb-1 text-center">
                   <Link to="/forgot" >Forgot Password</Link>
                   </div>
                   
                   <div className="mb-1 login_button">
-                    <button className=" p-2 px-5 " type="submit" disabled={isSubmitting} >
+                    <button className=" p-2 px-5 " type="submit"  >
                       Sing In
                     </button>
                     <div className=" blok text-center ">
