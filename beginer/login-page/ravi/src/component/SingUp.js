@@ -1,10 +1,9 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import axios from 'axios'
 
 const SingUp = () => { 
-
   
   var initialValues=({ email: '', password: '', name:'' })
 
@@ -35,15 +34,27 @@ if (!values.name) {
 return errors;
 });
 
+const onSubmit=(values) => {
 
+ console.log(values)
+// let data = JSON.stringify(values)
+// console.log(data)
 
- const onSubmit=(values) => {
-console.log(values)
   axios.post('http://localhost:2022/user', values).then(function (res) {
+
+    console.log("Response massage :" , res.data.message);
     
-    console.log(res);
+    // console.log(res.statusText);
+    // console.log(res);
+  // if(res.status === 200 && res.statusText === 'ok'   ){
+  //     console.log("Response massage :" , res.data.massage);
+  //     console.log("data insert in to database")
+  //     }else{
+      
+  //     console.log('please fill correct data')
+  //   }
      
-    //console.log(res.data.error === false && res.data.massage === 'New user has been created successfully.');
+  //console.log(res.data.error === false && res.data.massage === 'New user has been created successfully.');
  })
 
     
@@ -95,6 +106,7 @@ return(
                 <div className="text-center mt-1 or">
                   <h5>or use your registration</h5>
                 </div>
+                
                 <div className="py-1 px-5 ">
         <Formik initialValues={initialValues} validate={validate} onSubmit={onSubmit}>
        {({
@@ -150,7 +162,7 @@ return(
                       value={values.password}
                       className="form-control"
                       placeholder="Enter Password"
-                   Required />
+                       />
                    {errors.password && touched.password && errors.password}
                   </div>
                   

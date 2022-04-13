@@ -30,21 +30,24 @@ return errors;
 
  const  onSubmit=(values) => {
  
-  // let data = JSON.stringify(values, null, 2);
-  // console.log(data);
   console.log(values)
 
-  let loginOpt ={body : {
-    "email" : values.email,
-    "password" : values.password
-  }};
-
-  axios.get('http://localhost:2022/login',JSON.stringify(loginOpt), { "headers": {
+  
+  axios.post('http://localhost:2022/login', values, { "headers": {
     "content-type": "application/json",
     }}
     ).then(function (res) {
+
+      console.log("Request massage : ", res.data.msg)
     
-    console.log(res);
+    //  if(res.data.msg === 'login successfully' && res.status === 200 && res.statusText === 'ok'){
+    //    console.log(res.data.msg)
+
+    //  }else{
+    //    console.log("user not exist")
+
+    //  }
+    
    
  })   
 
@@ -123,8 +126,8 @@ return errors;
                       value={values.password}
                       className="form-control"
                       placeholder="Enter Password"
-                   Required />
-                   {errors.password && touched.password && errors.password}
+                    />
+                {errors.password && touched.password && errors.password}
                   </div>
                   
                   <div className=" mb-1 text-center">
@@ -159,9 +162,7 @@ return errors;
                 <Link to="/sing"><button className="p-2 m-2 px-5 ">Sign Up</button></Link> 
                 </div>
               </div>
-
-
-                </div>
+             </div>
             </div>
         </div>
     </div>

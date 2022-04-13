@@ -18,6 +18,9 @@
 
 
 @media  (max-width: 980px)  {
+  .sing_text{
+    display:none
+  }
  .login_text{
    margin-top:80px;
    display:none;
