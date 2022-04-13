@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Avatar, Button, Grid } from "@mui/material";
 import { Box, Paper } from "@mui/material";
 import "./signstyle.css";
@@ -11,6 +11,10 @@ import ReCAPTCHA from "react-google-recaptcha";
 import EmailIcon from "@mui/icons-material/Email";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import {  useHistory } from "react-router-dom";
+
+
 
 export default function Signup() {
   const initialValues = {
@@ -18,16 +22,27 @@ export default function Signup() {
     email: "",
     password: "",
   };
+  var history = useHistory();
+  const [loginerror, setLoginerror] = useState(false);
+
 
   function onChange(value) {
     console.log("Captcha value:", value);
   }
-  const onSubmit = (value, props) => {
-    setTimeout(() => {
-      props.resetForm();
-      props.setSubmitting(false);
-    }, 1000);
-  };
+{/* onSubmit */}
+const onSubmit = (values, props) => {
+  console.log(values.email);
+  axios.post('http://localhost:2022/user', values)
+  .then(function (res) {
+      if (res.status == 200 ) {
+          console.log("Success res : ", res.data.messeage);
+          history.push("/");
+      } else {
+          setLoginerror(true)
+      }
+      console.log(res);
+  })
+};
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().min(3, "Its too short").required("required"),

@@ -48,21 +48,26 @@ export default function Signin() {
 
   {/* onSubmit */}
   const onSubmit = (values, props) => {
-    axios.GET('http://localhost:2022/login', values)
-            .then(function (res) {
-                if (res.status == 200 && res.data && res.data.messeage == "success") {
-                    console.log("Success res : ", res.data.messeage)
-                    localStorage.setItem('token', "myVerySecureTokenforGdubey");
-                    history.push("/dashboard");
-                } else {
-                    setLoginerror(true)
-                }
-                console.log(res);
-            })
-    setTimeout(() => {
-      props.resetForm();
-      props.setSubmitting(false);
-    }, 1000);
+    axios.post('http://localhost:2022/login', values)
+    .then(function (res) {
+        if (res.status === 200 ) {
+            console.log("Success res : ", res.data.messeage);
+            localStorage.setItem('token', "myVerySecureTokenforGdubey");
+            history.push("./Dashboard");
+        }
+        else {
+            // setLoginerror(true)
+        }
+        console.log("res");
+    }
+    )
+    .catch((error)=>{
+      if(error.res == 401){
+        console.log("res");
+       
+        setLoginerror(true);
+      }
+    })
   };
 
   return (
@@ -151,13 +156,13 @@ export default function Signin() {
                       <br />
 
                       {/* Google recaptch */}
-                      <ReCAPTCHA
+                    { /* <ReCAPTCHA
                         sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
                         onChange={onChange}
                         name="grecaptcha"
                         required
                       />
-                      <br />
+                    <br />*/}
 
                       {/* Forgot Btn */}
                       <Button>Forgot Password</Button>
@@ -167,9 +172,8 @@ export default function Signin() {
                       <Button
                         className="signinBtn"
                         type="submit"
-                        disabled={props.isSubmitting}
                       >
-                        {props.isSubmitting ? "login..." : "Sign In"}
+                        Sign in
                       </Button>
                     </Grid>
                   </Form>
