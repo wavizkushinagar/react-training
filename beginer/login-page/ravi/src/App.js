@@ -12,7 +12,22 @@ function App() {
   <Switch>
    <Route exact path="/" component={Login} />
    <Route exact path="/sing" component ={SingUp} />
-   <ProtectedRoute path="/dashboard" element= {<Dashboard />} auth={false}/>
+   
+   <ProtectedRoute
+                        path="/dashboard"
+                        redirectRoute="/"
+                        guardFunctionArgs={{'one':'one'}}
+                        guardFunction={(args) => {
+                            console.log(args)
+                            const token = localStorage.getItem('token');
+                            return token && token.length > 0;
+                        }}
+                        component={Dashboard}
+                        exact
+                    />
+
+  {/* <ProtectedRoute path="/dashboard" component= {Dashboard } auth={false}/> */}
+
  </Switch>
  
       

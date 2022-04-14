@@ -1,16 +1,17 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
-import { Route } from "react-router-dom";
+import { Redirect,Route } from "react-router-dom";
 
-const ProtectedRoute = ({auth, component:Component, ...rest }) => {
+
+const ProtectedRoute = ({ component:Component, redirectRoute, guardFunction, guardFunctionArgs, ...rest }) => {
   return (
     <Route
       {...rest}
-      render={(props)=>{
-        if(auth) return <Component {...rest} />;
-        if(!auth) return(
-          <Redirect to={{path:"/", state: {from:props.location}}}/>
-        ) 
+      render={props => {
+        if (guardFunction && guardFunction(guardFunctionArgs)) {
+            return <Component {...props} />;
+        } else {
+          return <Redirect to={redirectRoute} />;
+        }
       }}
     />
   );

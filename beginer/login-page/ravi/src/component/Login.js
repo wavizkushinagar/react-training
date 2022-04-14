@@ -1,10 +1,13 @@
-
-import {Link} from 'react-router-dom';
+import React,{useState} from 'react'
+import {Link , useHistory} from 'react-router-dom';
 import { Formik } from 'formik';
 import axios from "axios";
 
 
 const Login = () => {
+ const [loginPassword , setLoginPassword] = useState(false);
+  const history = useHistory();
+
  var initialValues=({ email: '', password: '' })
 
 var  validate=(values => {
@@ -38,18 +41,20 @@ return errors;
     }}
     ).then(function (res) {
 
-      console.log("Request massage : ", res.data.msg)
-    
-    //  if(res.data.msg === 'login successfully' && res.status === 200 && res.statusText === 'ok'){
-    //    console.log(res.data.msg)
+     // console.log("Request massage : ", res.data.msg)
+     if( res.status === 200 ){
+        console.log(res.data.msg)
+       localStorage.setItem('token','ravi')
+       history.push('/dashboard');
 
-    //  }else{
-    //    console.log("user not exist")
-
-    //  }
-    
+     }else{
+        }
+    }).catch((error,res)=>{
+      
+   //console.log("catch block error",error.response.data.msg);
+   setLoginPassword(error.response.data.msg)
    
- })   
+ })  
 
   }
 
@@ -129,7 +134,11 @@ return errors;
                     />
                 {errors.password && touched.password && errors.password}
                   </div>
+                  <div className=" mb-1 text-center text-danger">
                   
+                  {loginPassword}
+
+                  </div>
                   <div className=" mb-1 text-center">
                   <Link to="/forgot" >Forgot Password</Link>
                   </div>

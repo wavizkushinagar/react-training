@@ -1,10 +1,19 @@
-import React from 'react';
-import {Link } from 'react-router-dom';
+import React,{useState,useEffect} from 'react';
+import {Link, useHistory} from 'react-router-dom';
 import { Formik } from 'formik';
 import axios from 'axios'
 
 const SingUp = () => { 
+ 
+  const [userEmail , setUserEmail] = useState(false);
+  const [userSuccess ,setUserSuccess] = useState(false);
+
+  const history = useHistory();
+  useEffect(() => {
+
+  }, [history]);
   
+  //initial data
   var initialValues=({ email: '', password: '', name:'' })
 
 var  validate=(values => {
@@ -42,19 +51,27 @@ const onSubmit=(values) => {
 
   axios.post('http://localhost:2022/user', values).then(function (res) {
 
-    console.log("Response massage :" , res.data.message);
-    
-    // console.log(res.statusText);
-    // console.log(res);
-  // if(res.status === 200 && res.statusText === 'ok'   ){
-  //     console.log("Response massage :" , res.data.massage);
-  //     console.log("data insert in to database")
-  //     }else{
-      
-  //     console.log('please fill correct data')
-  //   }
+   // console.log("Response massage :" , res.data.msg);
+
+   if(res.status === 200   ){
+      // console.log("Response massage :" , res.data.msg);
+     //console.log("data insert in to database")
+     // history.push('/');
      
-  //console.log(res.data.error === false && res.data.massage === 'New user has been created successfully.');
+     
+      setUserSuccess(res.data.msg);
+
+      setInterval(() => {
+          history.push('/')
+        }, 2000);
+      
+ 
+      }else{
+      console.log('')
+    }
+   }).catch((error)=>{
+   //console.log("error catch :",error.response.data.msg)
+   setUserEmail(error.response.data.msg)
  })
 
     
@@ -105,6 +122,10 @@ return(
                 </div>
                 <div className="text-center mt-1 or">
                   <h5>or use your registration</h5>
+                </div>
+                
+                <div className="text-center mb-1 mt-2">
+                  <h5 className="text-success">{userSuccess}</h5>
                 </div>
                 
                 <div className="py-1 px-5 ">
@@ -166,11 +187,16 @@ return(
                    {errors.password && touched.password && errors.password}
                   </div>
                   
-                  <div className="mb-1 login_button d-flex justify-content-around">
+                  <div className=" mb-2 text-center text-danger">
+                  {userEmail}
+
+                  </div>
+                  <div className="mb-1 mt-3 login_button d-flex justify-content-around">
 
                     <button className=" p-2 px-4 " type="submit"  >
-                      Sing Up
+                      Add New Account
                     </button>
+                    <Link to="/"><button className="p-2 px-5 bg-primary ">Sign In</button></Link>
                     
                   </div>
 
