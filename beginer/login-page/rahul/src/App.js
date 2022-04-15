@@ -24,7 +24,6 @@ function App() {
                         redirectRoute="/"
                         guardFunctionArgs={{'one':'one'}}
                         guardFunction={(args) => {
-                            console.log(args)
                             const token = localStorage.getItem('token');
                             return token && token.length > 0;
                         }}

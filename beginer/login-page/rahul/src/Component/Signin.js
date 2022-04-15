@@ -1,6 +1,6 @@
 import { Avatar, Button, Grid } from "@mui/material";
 import { Box, Paper } from "@mui/material";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "./signstyle.css";
 import logo from "./image/logo-header.png";
 import TextField from "@mui/material/TextField";
@@ -9,26 +9,27 @@ import { Link } from "react-router-dom";
 import ReCAPTCHA from "react-google-recaptcha";
 import EmailIcon from "@mui/icons-material/Email";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import {  useHistory } from "react-router-dom";
-
+import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
-
 import axios from "axios";
 
 export default function Signin() {
-  useEffect(()=>{
-    if(localStorage.getItem('token')){
-        history.push('/dashboard')
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      history.push("/dashboard");
     }
-},[])
+  }, []);
   var history = useHistory();
-  const [loginerror, setLoginerror] = useState(false);
+  const [loginerror, setLoginerror] = useState();
+  const [successMsg, setSuccessMsg] = useState();
 
   function onChange(value) {
     console.log("Captcha value:", value);
   }
 
-  {/* initialValues */  }
+  {
+    /* initialValues */
+  }
 
   const initialValues = {
     email: "",
@@ -36,38 +37,52 @@ export default function Signin() {
     grecaptcha: false,
   };
 
-  {/* validationSchema */}
-  const passwordRegularExp = /^(?=.*?[A-Za-z])(?=.*[A-Z])(?=.*?[0-9]).{6,}$/
+  {
+    /* validationSchema */
+  }
+  const passwordRegularExp = /^(?=.*?[A-Za-z])(?=.*[A-Z])(?=.*?[0-9]).{6,}$/;
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email("Enter Valid Email").required("required"),
     password: Yup.string()
-      .min(8, "Password should be 8 corrector").matches(passwordRegularExp,"must be contain number u")
+      .min(8, "Password should be 8 corrector")
+      .matches(passwordRegularExp, "must be contain number u")
       .required("Required"),
   });
 
-  {/* onSubmit */}
+  {
+    /* onSubmit */
+  }
   const onSubmit = (values, props) => {
-    axios.post('http://localhost:2022/login', values)
-    .then(function (res) {
-        if (res.status === 200 ) {
-            console.log("Success res : ", res.data.messeage);
-            localStorage.setItem('token', "myVerySecureTokenforGdubey");
-            history.push("./Dashboard");
-        }
-        else {
-            // setLoginerror(true)
+    axios
+      .post("http://localhost:2022/login", values)
+      .then(function (res) {
+        if (res.status === 200) {
+          const sucMsg = res.data.msg;
+          setSuccessMsg(sucMsg);
+          localStorage.setItem("token", "myVerySecureTokenforGdubey");
+          setTimeout(()=>{
+             history.push("./Dashboard");
+          },700);
+        } else {
+          // setLoginerror(true)
         }
         console.log("res");
-    }
-    )
-    .catch((error)=>{
-      if(error.res == 401){
-        console.log("res");
-       
-        setLoginerror(true);
-      }
-    })
+      })
+      .catch((error) => {
+        const errorMsg = error.response.data.msg;
+        setLoginerror(errorMsg);
+
+        function Nouser() {
+          const Nouser = "User does not exists";
+          if (errorMsg === Nouser) {
+            history.push("./signup");
+          }
+        }
+        setTimeout(() => {
+          Nouser();
+        }, 1000);
+      });
   };
 
   return (
@@ -110,20 +125,14 @@ export default function Signin() {
                   <Form>
                     {/* error */}
 
-                    <div style={{ textAlign: "center" }}>
-                      {loginerror ? (
-                        <p
-                          style={{
-                            padding: "10px",
-                            color: "#f44336",
-                          }}
-                        >
-                          {" "}
-                          Wrong Email or Password{" "}
-                        </p>
-                      ) : null}
+                    <div style={{ textAlign: "center", color: "red" }}>
+                      {loginerror}
                     </div>
 
+                     {/* success */}
+                   <div style={{ textAlign: "center", color: "green" }}>
+                   {successMsg}
+                  </div>
                     {/* error */}
                     <Grid align="center">
                       <Box md={{ display: "flex" }}>
@@ -132,7 +141,6 @@ export default function Signin() {
                         />
                         <Field
                           as={TextField}
-                          id="input-with-sx"
                           label="Email"
                           variant="standard"
                           name="email"
@@ -146,7 +154,6 @@ export default function Signin() {
                         <Field
                           as={TextField}
                           type="password"
-                          id="input-with-sx"
                           label="Password"
                           variant="standard"
                           name="password"
@@ -156,7 +163,7 @@ export default function Signin() {
                       <br />
 
                       {/* Google recaptch */}
-                    { /* <ReCAPTCHA
+                      {/* <ReCAPTCHA
                         sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
                         onChange={onChange}
                         name="grecaptcha"
@@ -169,10 +176,7 @@ export default function Signin() {
                       <br />
 
                       {/* Signin Btn */}
-                      <Button
-                        className="signinBtn"
-                        type="submit"
-                      >
+                      <Button className="signinBtn" type="submit">
                         Sign in
                       </Button>
                     </Grid>

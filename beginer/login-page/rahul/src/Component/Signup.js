@@ -23,7 +23,8 @@ export default function Signup() {
     password: "",
   };
   var history = useHistory();
-  const [loginerror, setLoginerror] = useState(false);
+  const [signupError, setSignupError] = useState();
+  const [successMsg, setSuccessMsg] = useState();
 
 
   function onChange(value) {
@@ -31,16 +32,20 @@ export default function Signup() {
   }
 {/* onSubmit */}
 const onSubmit = (values, props) => {
-  console.log(values.email);
   axios.post('http://localhost:2022/user', values)
   .then(function (res) {
-      if (res.status == 200 ) {
-          console.log("Success res : ", res.data.messeage);
-          history.push("/");
+      if (res.status === 200 ) {
+        const sucMsg = res.data.message;
+       setSuccessMsg(sucMsg);
+       setTimeout(()=>{
+         history.push("./")
+       },1000);
       } else {
-          setLoginerror(true)
       }
-      console.log(res);
+  })
+  .catch((error)=>{
+    const errorMsg = error.response.data.message;
+     setSignupError(errorMsg);
   })
 };
 
@@ -108,6 +113,16 @@ const onSubmit = (values, props) => {
               >
                 {(props) => (
                   <Form>
+                   {/* error */}
+
+                   <div style={{ textAlign: "center", color: "red" }}>
+                   {signupError}
+                  </div>
+
+                   {/* success */}
+                   <div style={{ textAlign: "center", color: "green" }}>
+                   {successMsg}
+                 </div>
                     <Grid align="center">
                       <Box md={{ display: "flex" }}>
                         <AccountCircle
@@ -115,7 +130,6 @@ const onSubmit = (values, props) => {
                         />
                         <Field
                           as={TextField}
-                          id="input-with-sx"
                           label="Name"
                           variant="standard"
                           type="text"
@@ -129,7 +143,6 @@ const onSubmit = (values, props) => {
                         />
                         <Field
                           as={TextField}
-                          id="input-with-sx"
                           label="Email"
                           variant="standard"
                           type="email"
@@ -145,7 +158,6 @@ const onSubmit = (values, props) => {
                           as={TextField}
                           name="password"
                           type="password"
-                          id="input-with-sx"
                           label="Password"
                           variant="standard"
                           helperText={<ErrorMessage name="password" />}
@@ -161,9 +173,8 @@ const onSubmit = (values, props) => {
                       <Button
                         type="submit"
                         className="signinBtn"
-                        disabled={props.isSubmitting}
                       >
-                        {props.isSubmitting ? "Registraing.." : "Sign up"}
+                      SignUP
                       </Button>
                     </Grid>
                   </Form>
